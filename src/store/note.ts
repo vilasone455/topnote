@@ -1,5 +1,4 @@
 import create from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
 import { CrudInterface } from '../interface/CrudInterface'
 import LocalNoteService from '../services/notes/LocalNote'
 

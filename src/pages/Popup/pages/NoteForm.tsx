@@ -43,7 +43,6 @@ const NoteForm: FC = () => {
         }
     }
 
-    git remote set-url origin https://github.com/vilasone455/topnote.git
 
 
     const onRemove = () => {

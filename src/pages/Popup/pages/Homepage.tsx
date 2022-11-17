@@ -5,21 +5,23 @@ import NoteItem from "../../../components/NoteItem";
 import useNoteStore from "../../../store/note";
 import useShareState from "../../../store/share";
 import {useNavigate} from "react-router-dom"
+import useCategoryStore from "../../../store/category";
 
 const Homepage: FC = () => {
 
     const { items, fetchItem } = useNoteStore()
     const { setSidebar } = useShareState()
+    const {fetchItem : fetchCategory} = useCategoryStore()
     const nav = useNavigate()
 
     useEffect(() => {
         fetchItem()
+        fetchCategory()
       },[])
-
 
     return (
         <div>
-            <Head onClick={() => setSidebar(true)} />
+            <Head title="All notes" onClick={() => setSidebar(true)} />
             <div className='flex flex-col space-y-2 p-2'>
                 {items.map(n => {
                     return (<NoteItem {...n} />)

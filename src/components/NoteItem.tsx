@@ -11,7 +11,7 @@ export interface NoteProp{
 const NoteItem : FC<NoteProp> = ({id , title , content}) => {
     const nav = useNavigate()
     return (
-        <div className="border rounded-lg " onClick={()=>nav("/form/"+id)}>
+        <div className="border rounded-lg cursor-pointer " onClick={()=>nav("/form/"+id)}>
             <div className="px-3 py-2 text-lg">
                 {title}
             </div>

@@ -1,13 +1,39 @@
-import { BookmarkIcon } from "@heroicons/react/24/solid";
+import { BookmarkIcon , Cog8ToothIcon , StarIcon , HomeIcon} from "@heroicons/react/24/outline";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import React, { FC } from "react";
-import { categorys } from "../data/category";
+import { Link , useNavigate } from "react-router-dom"
+import useCategoryStore from "../store/category";
 
 interface Prop {
     isOpen: boolean
-    onClose : () => void
+    onClose: () => void
 }
 
-const Sidebar: FC<Prop> = ({ isOpen , onClose }) => {
+interface ItemSidebarProp {
+    id: string
+    name: string
+    svg: any
+    onClick ?: () => void
+}
+
+const ItemSidebar: FC<ItemSidebarProp> = ({ svg, name, id , onClick }) => {
+    return (
+        <li key={id} onClick={onClick}>
+            <div
+                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+                {svg}
+                <span className="ml-3">{name}</span>
+            </div>
+        </li>
+    )
+}
+
+const Sidebar: FC<Prop> = ({ isOpen, onClose }) => {
+
+    const { items: categorys } = useCategoryStore()
+    const nav = useNavigate()
+
     return (
         <div>
             {isOpen && <div
@@ -46,17 +72,27 @@ const Sidebar: FC<Prop> = ({ isOpen , onClose }) => {
                 </button>
                 <div className="py-4 overflow-y-auto">
                     <ul className="space-y-2">
-                        {categorys.map(c=>{
-                            return (<li key={"category-"+c.id}>
+                        <ItemSidebar onClick={()=>nav("/")} name="All note" svg={<HomeIcon className="w-6 h-6" />} id="all-note" />
+                        <ItemSidebar name="Favorite" svg={<StarIcon className="w-6 h-6" />} id={"favorite"} />
+                        {/* <ItemSidebar name="Tags" svg={<StarIcon className="w-6 h-6" />} id={"tags"} /> */}
+                        <li className="bg-gray-200 p-2 flex justify-between rounded">
+                            <div className="ml-2 text-base font-normal text-gray-900">Tags</div>
+                            <Link to="/category" onClick={() => onClose()} className="text-gray-500 mt-1 mr-1">
+                                <PencilIcon className="w-4 h-4" />
+                            </Link>
+                        </li>
+                        {categorys.map(c => {
+                            return (<li key={"category-" + c.id} className="cursor-pointer">
                                 <div
                                     className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                                 >
-                                    <BookmarkIcon className={"w-6 h-6 text-" + c.color} />
-                                 
-                                    <span className="ml-3">{c.name}</span>
+                                    <BookmarkIcon className={"w-6 h-6 text-"} />
+
+                                    <span className="ml-3">{c.title}</span>
                                 </div>
                             </li>)
                         })}
+                        <ItemSidebar name="Setting" svg={<Cog8ToothIcon className="w-6 h-6" />} id="setting" />
                     </ul>
                 </div>
             </div>}

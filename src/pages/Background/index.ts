@@ -9,6 +9,14 @@ console.log('Put the background scripts here.');
 async function onContext(info: any, tab: any) {
   let menuId: string = info.menuItemId
   console.log(menuId)
+  if(menuId === "save-note-here"){
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+      chrome.tabs.sendMessage(tabs[0].id || 0, {action: "open_dialog_box" , url : tabs[0].url || "" }, function(response) {});  
+  });
+    // chrome.runtime.sendMessage({ horde: true });
+    console.log("send message success")
+    return 
+  }
   if (menuId.includes("savenote") === false) {
     return;
   }
@@ -67,54 +75,54 @@ const getTitle = () => {
   return titleName || ""
 }
 
-const onfunc = async (menuId : string , tab : string , infoText : any) => {
-  let titleName = prompt("Enter note title" , "")
-  console.log(menuId)
-  console.log(tab)
-  console.log(titleName)
-  console.log(infoText)
-  try {
-    let host = new URL(tab)
-    console.log(host)
-    // let notes = await chrome.storage.local.get(["notes"])
-    // alert(notes.notes)
-    let body : any = {
-      id : nanoid(8),
-      title : titleName,
-      content : infoText,
-      categoryId : menuId.split("-")[1] || "",
-      url : host.hostname
-    }
-    alert(JSON.stringify(body))
-    let cat = new Date()
-    alert("not pass")
-  // new LocalNoteService().getAllNotes().then(res=>{
-  //   alert(JSON.stringify(res))
-  // })
-  // alert("service pass")
-  // let items = await service.getAllNotes()
-  // alert("item pass")
-  // // let noteName = await prompt("Scrolling delay (seconds) ?", "");
-  // alert(JSON.stringify(items))
-  // // // let noteName = prompt("Please enter note name", "");
+// const onfunc = async (menuId : string , tab : string , infoText : any) => {
+//   let titleName = prompt("Enter note title" , "")
+//   console.log(menuId)
+//   console.log(tab)
+//   console.log(titleName)
+//   console.log(infoText)
+//   try {
+//     let host = new URL(tab)
+//     console.log(host)
+//     // let notes = await chrome.storage.local.get(["notes"])
+//     // alert(notes.notes)
+//     let body : any = {
+//       id : nanoid(8),
+//       title : titleName,
+//       content : infoText,
+//       categoryId : menuId.split("-")[1] || "",
+//       url : host.hostname
+//     }
+//     alert(JSON.stringify(body))
+//     let cat = new Date()
+//     alert("not pass")
+//   // new LocalNoteService().getAllNotes().then(res=>{
+//   //   alert(JSON.stringify(res))
+//   // })
+//   // alert("service pass")
+//   // let items = await service.getAllNotes()
+//   // alert("item pass")
+//   // // let noteName = await prompt("Scrolling delay (seconds) ?", "");
+//   // alert(JSON.stringify(items))
+//   // // // let noteName = prompt("Please enter note name", "");
 
-  // let category = menuId.split("-")
-  // alert(category)
-  // alert(host)
-  } catch (error) {
-    console.log('errr')
-    console.log(error)
-  }
+//   // let category = menuId.split("-")
+//   // alert(category)
+//   // alert(host)
+//   } catch (error) {
+//     console.log('errr')
+//     console.log(error)
+//   }
   
-  // let addItem = {
-  //   id: nanoid(8),
-  //   title: titleName?.toString() + host.hostname,
-  //   content: infoText,
-  //   categoryId : category[1] || ""
-  // }
-  // alert(JSON.stringify(addItem))
-  // service.newNote(items, addItem)
-}
+//   // let addItem = {
+//   //   id: nanoid(8),
+//   //   title: titleName?.toString() + host.hostname,
+//   //   content: infoText,
+//   //   categoryId : category[1] || ""
+//   // }
+//   // alert(JSON.stringify(addItem))
+//   // service.newNote(items, addItem)
+// }
 
 
 let cat = new LocalCategoryService()
@@ -133,5 +141,6 @@ cat.getAllCategory().then(res => {
   }
 })
 
+chrome.contextMenus.create({ id: "save-note-here", "title": "Save note here " });
 
 chrome.contextMenus.onClicked.addListener(onContext)

@@ -19,7 +19,8 @@
       "css": ["content.styles.css"]
     }
   ],
-  "permissions" : ["storage"  ],
+  "host_permissions" : ["http://*/*", "https://*/*", "<all_urls>"],
+  "permissions" : ["storage" , "contextMenus" , "tabs" , "scripting" ],
 
   "web_accessible_resources": [
     {

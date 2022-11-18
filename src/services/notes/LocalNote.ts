@@ -9,6 +9,7 @@ class LocalNoteService extends NoteSerivce {
             }
             return []
         } catch (error) {
+            console.log("error")
             console.log(error)
             return []
         }

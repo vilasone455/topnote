@@ -22,37 +22,24 @@ const Noteweb: FC<Prop> = ({ ele, onRemoveElement , onChange}) => {
 
     const [element, setelement] = useState(ele)
 
-    // const [pos, setpos] = useState({ x: 0, y: 0 })
-
-    useEffect(() => {
-        console.log(`initializing interval`);
-        const interval = setInterval(() => {
-            onUpdateEle();
-        }, 2000);
-
-        return () => {
-            console.log(`clearing interval`);
-            clearInterval(interval);
-        };
-    }, []); // has no dependency - this will be called on-component-mount
 
     const onUpdateEle = () => {
         // let eleProp = {...ele}
-        let posProp = ele.position
-        let posEle = element.position
+        // let posProp = ele.position
+        // let posEle = element.position
  
-        if ((posEle.x === posProp.x && posEle.y === posProp.y) === false) {
-            console.log("not equal same x y")
-            let body = { ...element }
-            let service = new LocalNoteService()
-            service.getAllNotes().then(async notes => {
-                await service.editNote(notes, body.id, body)
-                console.log("edit success")
-            }).catch(err => {
-                console.log("erro")
-                console.log(err)
-            })
-        }
+        // if ((posEle.x === posProp.x && posEle.y === posProp.y) === false) {
+        //     console.log("not equal same x y")
+        //     let body = { ...element }
+        //     let service = new LocalNoteService()
+        //     service.getAllNotes().then(async notes => {
+        //         await service.editNote(notes, body.id, body)
+        //         console.log("edit success")
+        //     }).catch(err => {
+        //         console.log("erro")
+        //         console.log(err)
+        //     })
+        // }
         // if(eleProp !== element){
 
 
@@ -64,15 +51,10 @@ const Noteweb: FC<Prop> = ({ ele, onRemoveElement , onChange}) => {
         setelement(ele)
     }, [ele])
 
-    useEffect(() => {
-        console.log("use effect ele")
-        // setpos(ele.position)
-    }, [ele.position])
-
     const onSave = () => {
         console.log('save');
         onChange(element)
-      };
+    };
 
     const onControlledDragStop = (e: DraggableEvent, position: DraggableData) => {
         let newEle = { ...element, position: {x : position.x , y : position.y} }

@@ -26,7 +26,8 @@ const TestCom: FC = () => {
             title: "",
             content: `Note here...`,
             url: url,
-            position: { x: 0, y: 100 }
+            position: { x: 0, y: 100 },
+            createDate : new Date()
         }
         console.log("body  : ")
         console.log(add)

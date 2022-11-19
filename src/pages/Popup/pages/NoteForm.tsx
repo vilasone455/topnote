@@ -6,8 +6,14 @@ import { useNavigate, useParams } from "react-router-dom"
 
 const NoteForm: FC = () => {
 
-    const [title, settitle] = useState("")
-    const [content, setcontent] = useState("")
+    const [form , setform] = useState({
+        id : "",
+        title : "",
+        content : "",
+        categoryId : "",
+        createDate : new Date()
+    })
+  
     const { items, addItem, editItem , deleteItem } = useNoteStore()
     const nav = useNavigate()
     let { id } = useParams();
@@ -16,8 +22,7 @@ const NoteForm: FC = () => {
         if (id !== "add" && id !== "") {
             let item = items.find(i => i.id === id)
             if (item) {
-                settitle(item.title)
-                setcontent(item.content)
+                setform(item)
             }
         }
     }, [])
@@ -26,24 +31,18 @@ const NoteForm: FC = () => {
         let trueId = id || ""
         if (trueId === "add") {
             let body = {
+                ...form,
                 id: nanoid(8),
-                title,
-                content
+                createDate : new Date(),
             }
             addItem(body)
             nav("/")
         } else if (trueId !== "") {
-            let body = {
-                id: trueId,
-                title,
-                content
-            }
+            let body = {...form}
             editItem(trueId, body)
             nav("/")
         }
     }
-
-
 
     const onRemove = () => {
         deleteItem(id||"")
@@ -69,9 +68,9 @@ const NoteForm: FC = () => {
             </div>
 
             <div className="mt-3">
-                <input value={title} onChange={e => settitle(e.target.value)} className="focus:outline-none px-4 py-2 text-lg text-gray-800" placeholder="Title" />
+                <input value={form.title} onChange={e => setform({...form , title : e.target.value})} className="focus:outline-none px-4 py-2 text-lg text-gray-800" placeholder="Title" />
                 <div className="mt-2">
-                    <textarea value={content} onChange={e => setcontent(e.target.value)} rows={4} className="w-full focus:outline-none px-4 py-2 text-lg text-gray-800" placeholder="Content" />
+                    <textarea value={form.content} onChange={e => setform({...form , content : e.target.value})} rows={4} className="w-full focus:outline-none px-4 py-2 text-lg text-gray-800" placeholder="Content" />
                 </div>
 
             </div>

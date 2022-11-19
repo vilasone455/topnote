@@ -35,6 +35,7 @@ const NoteForm: FC = () => {
                 id: nanoid(8),
                 createDate : new Date(),
             }
+            console.log(body)
             addItem(body)
             nav("/")
         } else if (trueId !== "") {

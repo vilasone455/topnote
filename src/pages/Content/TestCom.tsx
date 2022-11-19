@@ -47,9 +47,18 @@ const TestCom: FC = () => {
 
     }
 
+    const filterWeb = (url : string , notes : any[]) => {
+        let posNotes = notes.filter(n => {
+            let noteUrl = n.url || ""
+            return n.position && noteUrl === url
+        })
+        return posNotes
+    }
+
 
     const onLoad = async () => {
-
+       
+        // chrome.action.setBadgeText({text : "1"})
         let service = new LocalNoteService()
         let notes = await service.getAllNotes()
         console.log(notes)
@@ -59,8 +68,19 @@ const TestCom: FC = () => {
             let noteUrl = n.url || ""
             return n.position && noteUrl === url
         })
+   
         console.log(posNotes)
         setAllnotes(posNotes)
+        chrome.runtime.sendMessage(
+            {action : "setbadge" , num : posNotes.length.toString()},
+            function (response) {
+                console.log("content script send : ")
+                console.log(response);
+            }
+        );
+        // chrome.runtime.sendMessage({action: "setnum" , num : posNotes.length.toString() });
+        console.log("send num")
+
     }
 
     const removeElement = async (id: string) => {
@@ -68,9 +88,10 @@ const TestCom: FC = () => {
         setTimeout(async () => {
             let service = new LocalNoteService()
             console.log(allNotes)
-            let res = await service.removeNote(allNotes, id)
+            let notes =  await service.getAllNotes()
+            let res = await service.removeNote(notes, id)
             console.log(res)
-            setAllnotes(res)
+            setAllnotes(filterWeb(window.location.href , res))
         }, 300);
      
     }
@@ -91,6 +112,7 @@ const TestCom: FC = () => {
 
     return (
         <div className="absolute">
+            
             {allNotes.map(n => {
                 return (
                     <Noteweb onRemoveElement={removeElement} onChange={onChangeEvent} ele={n} key={"note-" + n.id} />

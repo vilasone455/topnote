@@ -10,6 +10,7 @@ interface NoteElement {
     title: string
     content: string
     position: ControlPosition
+    url ?: any
 }
 
 interface Prop {
@@ -21,7 +22,6 @@ interface Prop {
 const Noteweb: FC<Prop> = ({ ele, onRemoveElement , onChange}) => {
 
     const [element, setelement] = useState(ele)
-
 
     const onUpdateEle = () => {
         // let eleProp = {...ele}
@@ -49,6 +49,7 @@ const Noteweb: FC<Prop> = ({ ele, onRemoveElement , onChange}) => {
 
     useEffect(() => {
         setelement(ele)
+    
     }, [ele])
 
     const onSave = () => {
@@ -78,6 +79,8 @@ const Noteweb: FC<Prop> = ({ ele, onRemoveElement , onChange}) => {
         // })
 
     };
+
+    
 
     return (
         <Draggable position={element.position} onStop={onControlledDragStop}  >

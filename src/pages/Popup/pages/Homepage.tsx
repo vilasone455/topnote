@@ -24,7 +24,7 @@ const Homepage: FC = () => {
             <Head title="All notes" onClick={() => setSidebar(true)} />
             <div className='flex flex-col space-y-2 p-2'>
                 {items.map(n => {
-                    return (<NoteItem {...n} />)
+                    return (<NoteItem ele={n} />)
                 })}
             </div>
             <div className="absolute bottom-[-165px] right-2 bg-blue-800 p-1 rounded-full" onClick={() => nav("form/add")}>

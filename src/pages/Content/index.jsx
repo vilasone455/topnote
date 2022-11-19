@@ -25,10 +25,10 @@ render(
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log(message)
-  // window.postMessage({ type: "FROM_EXT", tabs:  sender.tab.id });
-  // console.log("send success")
-  let event = new CustomEvent("topnote-create", { detail : {url : message.url} });
-  document.dispatchEvent(event);
+  if(message.action === "newnote"){
+    let event = new CustomEvent("topnote-create", { detail : {url : message.url} });
+    document.dispatchEvent(event);
+  }
   return true
 });
 

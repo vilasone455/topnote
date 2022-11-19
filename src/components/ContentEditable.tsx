@@ -3,6 +3,7 @@ import React , {FC, useRef} from "react"
 interface Prop{
     value : string
     onChange : (e : string) => void
+    onSave : () => void
 }
 
 const ContentEditableWithRef : FC<Prop> = (props) => {
@@ -14,13 +15,11 @@ const ContentEditableWithRef : FC<Prop> = (props) => {
       }
     };
 
-
-  
     return (
       <div     contentEditable
         className="min-h-[6rem] outline-none"
         onInput={handleInput}
-    
+        onBlur={()=>props.onSave()}
         dangerouslySetInnerHTML={{ __html: defaultValue.current }}
       />
     );

@@ -48,6 +48,7 @@ class LocalNoteService extends NoteSerivce {
         let index = notes.findIndex(n=>n.id === id)
         let newNotes = [...notes]
         try {
+            console.log(index)
             if(index !== -1){
                 newNotes.splice(index , 1)
             }

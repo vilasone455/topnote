@@ -2,21 +2,35 @@ import LocalNoteService from "../../services/notes/LocalNote";
 import { nanoid } from "nanoid"
 import LocalCategoryService from "../../services/categorys/LocalCategory";
 
-console.log('This is the background pagess.');
+console.log('This is the background pagesasss.');
 console.log('Put the background scripts here.');
 
+// let da = doc(db , "testcol" , "m536f0bYZ4ukwfW79LqA")
+// console.log("start get doc")
+// getDoc(da).then(r=>{
+//   console.log("get data")
+//   console.log(r.data())
+// }).catch(err=>{
+//   console.log("error fail")
+//   console.log(err)
+// })
 
 
 async function onContext(info: any, tab: any) {
   let menuId: string = info.menuItemId
+  if (menuId === "higlight-here") {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id || 0, { action: "highlight", url: tabs[0].url || "" }, function (response) { });
+    });
+    return
+  }
   console.log(menuId)
-  if(menuId === "save-note-here"){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-      chrome.tabs.sendMessage(tabs[0].id || 0, {action: "newnote" , url : tabs[0].url || "" }, function(response) {});  
-  });
-    // chrome.runtime.sendMessage({ horde: true });
+  if (menuId === "save-note-here") {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id || 0, { action: "newnote", url: tabs[0].url || "" }, function (response) { });
+    });
     console.log("send message success")
-    return 
+    return
   }
   if (menuId.includes("savenote") === false) {
     return;
@@ -26,30 +40,30 @@ async function onContext(info: any, tab: any) {
 
   chrome.scripting.executeScript(
     {
-      target: {tabId: tab.id},
+      target: { tabId: tab.id },
       func: getTitle,
     },
     async (injectionResults) => {
-      
+
       for (const frameResult of injectionResults) {
         let at = nanoid(9)
         console.log('Frame Title: ' + at + frameResult.result);
-        let body : any = {
-          id : nanoid(8),
-          title : frameResult.result,
-          content : infoText,
-          categoryId : menuId.split("-")[1] || "",
-          url : tab.url
+        let body: any = {
+          id: nanoid(8),
+          title: frameResult.result,
+          content: infoText,
+          categoryId: menuId.split("-")[1] || "",
+          url: tab.url
         }
         console.log(body)
         let service = await new LocalNoteService()
         let notes = await service.getAllNotes()
-        let res  = await service.newNote(notes , body)
+        let res = await service.newNote(notes, body)
         console.log(res)
 
       }
-        
-       
+
+
     });
 
   // chrome.scripting.executeScript(
@@ -72,7 +86,7 @@ async function onContext(info: any, tab: any) {
 }
 
 const getTitle = () => {
-  let titleName = prompt("Enter note title" , "")
+  let titleName = prompt("Enter note title", "")
   return titleName || ""
 }
 
@@ -114,7 +128,7 @@ const getTitle = () => {
 //     console.log('errr')
 //     console.log(error)
 //   }
-  
+
 //   // let addItem = {
 //   //   id: nanoid(8),
 //   //   title: titleName?.toString() + host.hostname,
@@ -144,17 +158,21 @@ cat.getAllCategory().then(res => {
 
 
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if(request.action === "setbadge"){
-      chrome.action.setBadgeText({text : request.num})
+  function (request, sender, sendResponse) {
+    if (request.action === "setbadge") {
+      chrome.action.setBadgeText({ text: request.num })
       sendResponse("success");
-    }else{
+    } else {
       sendResponse("fail");
     }
 
 
   }
 );
+
+
+
+chrome.contextMenus.create({ id: "higlight-here", "title": "Save higlight " , "contexts": ["selection"] });
 
 chrome.contextMenus.create({ id: "save-note-here", "title": "Save note here " });
 

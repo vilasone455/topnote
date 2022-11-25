@@ -16,14 +16,21 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*", "<all_urls>"],
-      "js": ["contentScript.bundle.js"],
+      "js": ["contentScript.bundle.js" , "jquery-2.1.3.min.js"],
       "css": ["content.styles.css"],
       "run_at": "document_end"
-      
     }
   ],
   "host_permissions" : ["http://*/*", "https://*/*", "<all_urls>"],
   "permissions" : ["storage" , "contextMenus" , "tabs" , "scripting" ],
+  "key" : "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmz3v1M33qoKem/qx7Alm0nTNsd4FP6S4xUawM/CQc/K5QtnnYUEI62t76OwN3X+YNL35GilqBTlFTxO+15rwXieOZ/mRf63VDy38b6bjjUOZgUqEFARnB/23N7tYdTyKXMmfi82RKEkyU7nBl6J8h0GydMY+8iAiGqV1/Fv0a7vghJlrzliNs1SlHAaCwCB8PJZEOfb1Np1LGKXz7PBa/CNgnejCdMwpvLwByCtWsWVggXhSjW1R2Ot8qlBwXot3kzGHA6avHfpSs5fmx2JRRGyzZYyzpdVmCs/J9S5ioHdfzEFAUNOWvQBZqeouWo8NgBycHTfOHRiVGaPAput+WwIDAQAB",
+  "oauth2": {
+    "client_id" :"577155826000-ketf9339i770qctbp1fpkf64b7526pn0.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
 
   "web_accessible_resources": [
     {

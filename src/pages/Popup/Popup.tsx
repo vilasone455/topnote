@@ -13,7 +13,7 @@ const Popup = () => {
   const { isSidebar, setSidebar } = useShareState()
 
   return (
-    <div className="">
+    <div className="" style={{minHeight : 585}}>
      
         <HashRouter basename='/'>
       <Sidebar isOpen={isSidebar} onClose={() => setSidebar(false)} />

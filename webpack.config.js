@@ -131,6 +131,15 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
+          from: 'src/lib/jquery-2.1.3.min.js',
+          to: path.join(__dirname, 'build'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
           from: 'src/pages/Content/content.styles.css',
           to: path.join(__dirname, 'build'),
           force: true,

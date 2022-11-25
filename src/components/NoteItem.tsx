@@ -3,12 +3,19 @@ import {useNavigate} from "react-router-dom"
 import { Note } from "../interface/Note";
 
 export interface NoteProp{
-    ele : Note
+    ele : Note,
+    bg : string
 }
 
-const NoteItem : FC<NoteProp> = ({ele}) => {
+
+const NoteItem : FC<NoteProp> = ({ele , bg}) => {
 
     const [title , settitle] = useState("")
+    const [color , setcolor] = useState("")
+
+    useEffect(() => {
+        // setcolor(getRandom())
+    } , [])
 
     useEffect(() => {
         if(ele.url && ele.title === ""){
@@ -16,13 +23,15 @@ const NoteItem : FC<NoteProp> = ({ele}) => {
         }
     } , [ele])
 
+ 
+
     const nav = useNavigate()
     return (
-        <div className="border rounded-lg cursor-pointer " onClick={()=>nav("/form/"+ele.id)}>
-            <div className="px-3 py-2 text-lg">
-                {title}{ele.title}
+        <div className={`border-r h-44 overflow-hidden cursor-pointer ${bg} `} onClick={()=>nav("/form/"+ele.id)}>
+            <div className="px-3 py-2 text-lg text-white font-medium">
+                {title}{ele.title} 
             </div>
-            <div className="p-3  ">
+            <div className="px-3 py-1 break-words text-white  ">
                 {ele.content}
             </div>
         </div>

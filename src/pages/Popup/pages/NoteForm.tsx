@@ -70,8 +70,8 @@ const NoteForm: FC = () => {
 
             <div className="mt-3">
                 <input value={form.title} onChange={e => setform({...form , title : e.target.value})} className="focus:outline-none px-4 py-2 text-lg text-gray-800" placeholder="Title" />
-                <div className="mt-2">
-                    <textarea value={form.content} onChange={e => setform({...form , content : e.target.value})} rows={4} className="w-full focus:outline-none px-4 py-2 text-lg text-gray-800" placeholder="Content" />
+                <div className="mt-2 h-screen">
+                    <textarea value={form.content} onChange={e => setform({...form , content : e.target.value})} rows={4} className="w-full h-screen focus:outline-none px-4 py-2 text-lg text-gray-800" placeholder="Content" />
                 </div>
 
             </div>
